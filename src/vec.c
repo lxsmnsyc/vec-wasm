@@ -1,5 +1,7 @@
 #include <math.h>
+#include <emscripten/emscripten.h>
 
+EMSCRIPTEN_KEEPALIVE
 double len2(double* vec, int dim) {
   double result = 0;
   for (int i = 0; i < dim; i++) {
@@ -8,6 +10,7 @@ double len2(double* vec, int dim) {
   return result;
 }
 
+EMSCRIPTEN_KEEPALIVE
 double len(double* vec, int dim) {
-  return len2(vec, dim);
+  return sqrt(len2(vec, dim));
 }
