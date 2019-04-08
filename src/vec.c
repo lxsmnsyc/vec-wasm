@@ -31,6 +31,20 @@ void v_abs(double* vec, int dim) {
 }
 
 EMSCRIPTEN_KEEPALIVE
+void v_clean() {
+  for (int i = 0; i < MAX_DIMENSIONS; i++) {
+    data[i] = 0.0;
+  }
+}
+
+EMSCRIPTEN_KEEPALIVE
+void v_save(int index, double value) {
+  if (0 <= index && index < MAX_DIMENSIONS) {
+    data[index] = value;
+  }
+}
+
+EMSCRIPTEN_KEEPALIVE
 double* v_load() {
   return &data[0];
 }
