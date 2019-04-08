@@ -17,5 +17,29 @@ export default async () => {
     instance = await WebAssembly.instantiate(m);
   }
 
+  const { exports } = instance;
+
+  const { v_save } = exports;
+
+
+  const MAX_DIMENSIONS = 128;
+  const { min, max } = Math;
+  const clamp = (a, b, c) => max(a, min(b, c));
+
+  const save = (f64arr) => {
+    const size = clamp(0, f64arr.length, MAX_DIMENSIONS);
+    for (let i = 0; i < size; i++) {
+      v_save(i, f64arr[i]);
+    }
+  }
+
+  const load = (size) => {
+    const f64arr = new Float64Array(size);
+  }
+
+  const vec = {
+
+  }
+
   return vec;
 }
