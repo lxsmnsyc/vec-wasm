@@ -21,7 +21,9 @@ export default async () => {
   }
 
   const {
-    vsave, vload, vclean, vabs,
+    vsave, vload, vclean,
+    vabs, vacos, vacosh,
+    vlen, vlen2,
   } = inst.exports;
 
   const MAX_DIMENSIONS = 128;
@@ -48,13 +50,23 @@ export default async () => {
     return f64arr;
   };
 
+  const consumer = (arr, consume) => {
+    const { length } = arr;
+    save(arr);
+    consume(length);
+    return load(length);
+  };
+
+  // eslint-disable-next-line no-sequences
+  const double = (arr, consume) => (save(arr), consume(arr.length));
+
   const vec = {
-    abs: (arr) => {
-      const { length } = arr;
-      save(arr);
-      vabs(length);
-      return load(length);
-    },
+    abs: arr => consumer(arr, vabs),
+    acos: arr => consumer(arr, vacos),
+    acosh: arr => consumer(arr, vacosh),
+
+    len: arr => double(arr, vlen),
+    len2: arr => double(arr, vlen2),
   };
 
   return vec;
